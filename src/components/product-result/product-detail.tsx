@@ -22,12 +22,14 @@ export default function ProductDetail() {
         <div className=' flex h-[80vh] bg-white rounded-md shadow-md shadow-gray-300'>
             <section className=' flex flex-col w-2/3 m-4 space-y-4'>
                 <div className=' h-2/3 w-full relative'>
-                    <Image
+                   {product?.image && 
+                     <Image
                         fill
-                        src={product?.image!}
+                        src={product?.image ?? ''}
                         alt='Product Image'
                         className=' object-contain'
                     />
+                   }
                 </div>
 
                 <p>{product?.description}</p>

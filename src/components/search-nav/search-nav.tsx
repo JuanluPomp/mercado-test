@@ -1,16 +1,13 @@
 "use client"
-
 import { Search } from 'lucide-react'
 import Image from 'next/image'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter} from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { useDebounce } from 'use-debounce'
 
 export default function SearchNav() {
     const [search, setSearch] = useState('')
     const router = useRouter()
-    const searchParams = useSearchParams()
-    const searchValue = searchParams.get('search')
     const [searchDebounced] = useDebounce(search, 300)
 
     useEffect(() => {
@@ -21,12 +18,6 @@ export default function SearchNav() {
         router.push(`/items?search=${searchDebounced}`)
     }, [searchDebounced])
 
-    useEffect(() => {
-        if(searchValue){
-            console.log('busqueda desde la url: ', searchValue)
-        } 
-    }, [searchValue])
-
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const searchValue = e.target.value
         setSearch(searchValue)
@@ -34,8 +25,6 @@ export default function SearchNav() {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        const data = new FormData(e.currentTarget)
-        const search = data.get('search')
     }
     return (
         <nav className=' flex justify-center items-center space-x-2 bg-yellow-300 border border-gray-400 py-2'>
