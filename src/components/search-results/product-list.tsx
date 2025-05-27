@@ -7,7 +7,6 @@ export default async  function ProductList() {
   const baseUrl = process.env.BASE_URL_DEV
   const res = await fetch(`${baseUrl}/api/items`)
   const products = await res.json() as TProduct[]
-  console.log(products)
   return (
     <div className=' container mx-auto rounded-md bg-white'>
         <ul

@@ -8,3 +8,16 @@ export type TProduct = {
     rating: { rate: string, count: number }
     title: string
 }
+
+export interface CategoryProducts {
+    id:       number;
+    userId:   number;
+    date:     Date;
+    products: CategoryProduct[];
+    __v:      number;
+}
+
+export interface CategoryProduct {
+    productId: number;
+    quantity:  number;
+}

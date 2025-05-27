@@ -2,14 +2,40 @@
 
 import { Search } from 'lucide-react'
 import Image from 'next/image'
-import React from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
+import { useDebounce } from 'use-debounce'
 
 export default function SearchNav() {
+    const [search, setSearch] = useState('')
+    const router = useRouter()
+    const searchParams = useSearchParams()
+    const searchValue = searchParams.get('search')
+    const [searchDebounced] = useDebounce(search, 300)
+
+    useEffect(() => {
+        if(searchDebounced === ''){
+            router.push(`/items`)
+            return
+        }
+        router.push(`/items?search=${searchDebounced}`)
+    }, [searchDebounced])
+
+    useEffect(() => {
+        if(searchValue){
+            console.log('busqueda desde la url: ', searchValue)
+        } 
+    }, [searchValue])
+
+    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const searchValue = e.target.value
+        setSearch(searchValue)
+    }
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const data = new FormData(e.currentTarget)
         const search = data.get('search')
-        console.log(search)
     }
     return (
         <nav className=' flex justify-center items-center space-x-2 bg-yellow-300 border border-gray-400 py-2'>
@@ -25,6 +51,8 @@ export default function SearchNav() {
                 <div className=' flex justify-center items-center border border-gray-300 bg-white rounded-sm'>
                     <input
                         name='search'
+                        value={search}
+                        onChange={handleOnChange}
                         className='  w-full p-1.5'
                         type="text"
                         placeholder='Nunca dejes de buscar'
